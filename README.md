@@ -85,7 +85,3 @@ Some printers will not accept NetworkPOSPrinterUnderline.double, only a single w
 
 * method documentation
 
-## Support
-If this package was helpful to you in delivering on your project or you just wanna to support this project, a cup of tea would be highly appreciated ;-)
-
-[![Buy me a tea](https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png)](https://buymeacoff.ee/benverstraete)
