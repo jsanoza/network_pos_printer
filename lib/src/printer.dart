@@ -8,12 +8,12 @@ import 'package:network_pos_printer/src/style.dart';
 import 'column.dart';
 
 class NetworkPOSPrinter {
-  Socket socket;
+  Socket? socket;
 
   NetworkPOSPrinter({this.socket});
 
   static Future<NetworkPOSPrinter> connect(host, int port,
-      {sourceAddress, Duration timeout}) {
+      {sourceAddress, Duration? timeout}) {
     return Socket.connect(host, port,
             sourceAddress: sourceAddress, timeout: timeout)
         .then((socket) {
@@ -41,15 +41,15 @@ class NetworkPOSPrinter {
   }
 
   void writeAll(Iterable objects, [String separator = '']) {
-    socket.writeAll(objects, separator);
+    socket!.writeAll(objects, separator);
   }
 
   writeLine(Object obj) {
-    socket.writeln(obj);
+    socket!.writeln(obj);
   }
 
-  void write(Object obj) {
-    socket.write(obj);
+  void write(Object? obj) {
+    socket!.write(obj);
   }
 
   void writeLines(Iterable objects) {
@@ -67,11 +67,11 @@ class NetworkPOSPrinter {
   }
 
   Future<dynamic> flush() {
-    return socket.flush();
+    return socket!.flush();
   }
 
   Future<dynamic> close() {
-    return socket.close();
+    return socket!.close();
   }
 
   void setBold(bool bold) {
@@ -84,7 +84,7 @@ class NetworkPOSPrinter {
 
   void setTextSize(
       NetworkPOSPrinterTextSize width, NetworkPOSPrinterTextSize height) {
-    socket.add(Uint8List.fromList(List.from(Command.gsNot.codeUnits)
+    socket!.add(Uint8List.fromList(List.from(Command.gsNot.codeUnits)
       ..add(NetworkPOSPrinterTextSize.getSize(width, height))));
   }
 
@@ -184,7 +184,7 @@ class NetworkPOSPrinter {
   }
 
   _writeColumn({
-    String text,
+    String? text,
     NetworkPOSPrinterStyle style = const NetworkPOSPrinterStyle(),
     int columnIndex = 0,
     int columnWidth = 12,
@@ -202,7 +202,7 @@ class NetworkPOSPrinter {
     } else {
       final double toPosition =
           _columnIndexToPosition(columnIndex + columnWidth) - 5;
-      final double textLength = text.length * charLength;
+      final double textLength = text!.length * charLength;
 
       if (style.justification == NetworkPOSPrinterJustification.right) {
         fromPosition = toPosition - textLength;
@@ -222,13 +222,13 @@ class NetworkPOSPrinter {
     setTextSize(style.width, style.height);
 
     // position
-    socket.add(Uint8List.fromList(List.from(Command.absolutePosition.codeUnits)
+    socket!.add(Uint8List.fromList(List.from(Command.absolutePosition.codeUnits)
       ..addAll([hexPair[1], hexPair[0]])));
 
     write(text);
   }
 
   void destroy() {
-    socket.destroy();
+    socket!.destroy();
   }
 }
